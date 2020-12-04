@@ -1,6 +1,11 @@
 from rest_framework import viewsets
 from rest_framework import authentication
-from .serializers import CustomTextSerializer, HomePageSerializer, StudentSerializer
+from .serializers import (
+    CustomTextSerializer,
+    HomePageSerializer,
+    PaymentSerializer,
+    StudentSerializer,
+)
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.permissions import IsAdminUser
@@ -14,7 +19,7 @@ from home.api.v1.serializers import (
     HomePageSerializer,
     UserSerializer,
 )
-from home.models import CustomText, HomePage, Student
+from home.models import CustomText, HomePage, Payment, Student
 
 
 class SignupViewSet(ModelViewSet):
@@ -61,3 +66,12 @@ class StudentViewSet(viewsets.ModelViewSet):
         authentication.TokenAuthentication,
     )
     queryset = Student.objects.all()
+
+
+class PaymentViewSet(viewsets.ModelViewSet):
+    serializer_class = PaymentSerializer
+    authentication_classes = (
+        authentication.SessionAuthentication,
+        authentication.TokenAuthentication,
+    )
+    queryset = Payment.objects.all()
